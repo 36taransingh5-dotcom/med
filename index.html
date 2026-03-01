@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SureSlot — Predictive Capacity Optimization Engine for the NHS. Reduce Did Not Attend rates with intelligent risk stratification.">
+  <title>SureSlot | Predictive Capacity Optimization Engine</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A2463'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='18' font-weight='900' fill='%231DB954'>S</text></svg>">
+</head>
+<body>
+
+  <!-- ═══ Top Bar ═══ -->
+  <header class="topbar">
+    <div class="topbar__brand">
+      <div class="topbar__logo">S</div>
+      <div>
+        <div class="topbar__title">SureSlot</div>
+        <div class="topbar__subtitle">Predictive Capacity Optimization</div>
+      </div>
+    </div>
+    <div class="topbar__meta">
+      <div class="topbar__status">
+        <span class="topbar__status-dot"></span>
+        Engine Active
+      </div>
+      <div class="topbar__nhs">NHS TRUST</div>
+    </div>
+  </header>
+
+  <!-- ═══ Tabs ═══ -->
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="panel-dashboard" role="tab" aria-selected="true">
+      <span class="tab-btn__icon">📊</span>Clinical Dashboard
+    </button>
+    <button class="tab-btn" data-tab="panel-savings" role="tab" aria-selected="false">
+      <span class="tab-btn__icon">💰</span>Savings Calculator
+    </button>
+  </nav>
+
+  <!-- ═══ Main Content ═══ -->
+  <main class="main">
+
+    <!-- ── Dashboard Panel ── -->
+    <section id="panel-dashboard" class="tab-panel active" role="tabpanel">
+
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-card__label">Total Assessed</div>
+          <div class="stat-card__value stat-card__value--blue" id="stat-total">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Low Risk</div>
+          <div class="stat-card__value stat-card__value--green" id="stat-low">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Med / High Risk</div>
+          <div class="stat-card__value stat-card__value--amber" id="stat-medhigh">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card__label">Very High Risk</div>
+          <div class="stat-card__value stat-card__value--red" id="stat-veryhigh">0</div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+
+        <!-- Patient Intake -->
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">
+              <span class="card__title-icon">🩺</span>
+              Patient Intake
+            </div>
+            <span class="card__badge" style="background:#E0ECFD;color:#0A2463;">Risk Assessment</span>
+          </div>
+          <div class="card__body">
+            <form id="intake-form">
+              <div class="form-group">
+                <label class="form-label" for="patientName">Patient Name <span class="form-label__hint">(optional)</span></label>
+                <input class="form-input" id="patientName" type="text" placeholder="e.g. John Smith" autocomplete="off">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="previousDNA">Previous DNAs <span class="form-label__hint">×8</span></label>
+                  <input class="form-input" id="previousDNA" type="number" min="0" max="50" value="0" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="recentDNA">Recent DNAs <span class="form-label__hint">×15</span></label>
+                  <input class="form-input" id="recentDNA" type="number" min="0" max="20" value="0" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="noConfirmation">Confirmation Attempts Failed <span class="form-label__hint">×12</span></label>
+                <input class="form-input" id="noConfirmation" type="number" min="0" max="10" value="0" required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="leadTimeDays">Lead Time <span class="form-label__hint">days ×0.4</span></label>
+                  <input class="form-input" id="leadTimeDays" type="number" min="0" max="365" value="14" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="distanceMiles">Distance <span class="form-label__hint">miles ×0.6</span></label>
+                  <input class="form-input" id="distanceMiles" type="number" min="0" max="200" step="0.1" value="5" required>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn--primary" id="assess-btn">
+                ⚡ Assess DNA Risk
+              </button>
+            </form>
+
+            <!-- Tier Legend -->
+            <div class="tier-legend">
+              <div class="tier-legend__item">
+                <span class="tier-legend__dot tier-legend__dot--low"></span>
+                <span class="tier-legend__label">Low</span>
+                <span class="tier-legend__range">0 – 10%</span>
+              </div>
+              <div class="tier-legend__item">
+                <span class="tier-legend__dot tier-legend__dot--medium"></span>
+                <span class="tier-legend__label">Medium</span>
+                <span class="tier-legend__range">11 – 25%</span>
+              </div>
+              <div class="tier-legend__item">
+                <span class="tier-legend__dot tier-legend__dot--high"></span>
+                <span class="tier-legend__label">High</span>
+                <span class="tier-legend__range">26 – 50%</span>
+              </div>
+              <div class="tier-legend__item">
+                <span class="tier-legend__dot tier-legend__dot--veryhigh"></span>
+                <span class="tier-legend__label">Very High</span>
+                <span class="tier-legend__range">&gt; 50%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Risk Feed -->
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">
+              <span class="card__title-icon">📡</span>
+              Live Risk Feed
+            </div>
+            <span class="card__badge" style="background:#E0FBE9;color:#0E8A3E;">● Live</span>
+          </div>
+          <div class="card__body" style="padding:0;">
+            <div class="feed" id="risk-feed">
+              <div class="feed__empty">
+                <div class="feed__empty-icon">📋</div>
+                <div class="feed__empty-text">No patients assessed yet</div>
+                <div class="feed__empty-sub">Submit the intake form to begin risk stratification</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Feature Highlights -->
+      <div class="features-bar">
+        <div class="feature-card">
+          <div class="feature-card__icon">⚡</div>
+          <div class="feature-card__title">Dynamic Response</div>
+          <div class="feature-card__desc">Not just reminders — an operational decision engine that adapts intervention strategy in real time.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">🧑‍⚕️</div>
+          <div class="feature-card__title">Human-in-the-Loop</div>
+          <div class="feature-card__desc">Very High risk triggers human follow-up — proven to reduce mortality and morbidity outcomes.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon">📈</div>
+          <div class="feature-card__title">Scalable AI</div>
+          <div class="feature-card__desc">Built on an agentic platform. The model continuously improves as real-world data is accumulated.</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Savings Calculator Panel ── -->
+    <section id="panel-savings" class="tab-panel" role="tabpanel">
+
+      <div class="savings-grid">
+
+        <!-- Controls -->
+        <div class="card">
+          <div class="card__header">
+            <div class="card__title">
+              <span class="card__title-icon">🎛️</span>
+              DNA Reduction Target
+            </div>
+          </div>
+          <div class="card__body">
+            <div class="slider-container">
+              <div class="slider-value-display" id="reduction-display">30<span>%</span></div>
+              <input type="range" id="dna-reduction" min="5" max="60" value="30" step="1">
+              <div class="slider-labels">
+                <span>5%</span>
+                <span>Conservative</span>
+                <span>Aggressive</span>
+                <span>60%</span>
+              </div>
+            </div>
+
+            <div class="baseline-info">
+              <div class="baseline-info__title">📊 NHS Baseline Data</div>
+              <div class="baseline-info__row">
+                <span>Annual DNA Rate</span>
+                <span class="baseline-info__value">~7.8%</span>
+              </div>
+              <div class="baseline-info__row">
+                <span>Total DNAs / Year</span>
+                <span class="baseline-info__value">~8 Million</span>
+              </div>
+              <div class="baseline-info__row">
+                <span>Annual Cost to NHS</span>
+                <span class="baseline-info__value">£1.3 Billion</span>
+              </div>
+              <div class="baseline-info__row">
+                <span>Cost per DNA</span>
+                <span class="baseline-info__value">£162.50</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div>
+          <div class="savings-results">
+            <div class="savings-result-card savings-result-card--money">
+              <div class="savings-result__icon">💷</div>
+              <div class="savings-result__value savings-result__value--green" id="savings-money">£390M</div>
+              <div class="savings-result__label">Projected Savings</div>
+              <div class="savings-result__desc">Annual cost reduction from prevented DNAs across NHS trusts</div>
+            </div>
+            <div class="savings-result-card savings-result-card--appts">
+              <div class="savings-result__icon">📅</div>
+              <div class="savings-result__value savings-result__value--blue" id="savings-appts">2.4M</div>
+              <div class="savings-result__label">Appointments Recovered</div>
+              <div class="savings-result__desc">Additional patients seen per year from reclaimed capacity</div>
+            </div>
+            <div class="savings-result-card savings-result-card--rate">
+              <div class="savings-result__icon">📉</div>
+              <div class="savings-result__value savings-result__value--amber" id="savings-rate">5.5%</div>
+              <div class="savings-result__label">New DNA Rate</div>
+              <div class="savings-result__desc">Projected national DNA rate after SureSlot deployment</div>
+            </div>
+            <div class="savings-result-card savings-result-card--impact">
+              <div class="savings-result__icon">🏥</div>
+              <div class="savings-result__value savings-result__value--purple" id="savings-capacity">+12%</div>
+              <div class="savings-result__label">Capacity Gain</div>
+              <div class="savings-result__desc">Estimated outpatient capacity increase across participating trusts</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══ Footer ═══ -->
+  <footer class="footer">
+    SureSlot © 2026 — Predictive Capacity Optimization for the NHS &nbsp;·&nbsp; Built for the MedTech Innovation Programme
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
