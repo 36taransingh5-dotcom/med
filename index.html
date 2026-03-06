@@ -1,277 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="SureSlot — Predictive Capacity Optimization Engine for the NHS. Reduce Did Not Attend rates with intelligent risk stratification.">
   <title>SureSlot | Predictive Capacity Optimization Engine</title>
+  <!-- DM Sans for that modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230A2463'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='18' font-weight='900' fill='%231DB954'>S</text></svg>">
 </head>
+
 <body>
 
-  <!-- ═══ Top Bar ═══ -->
-  <header class="topbar">
-    <div class="topbar__brand">
-      <div class="topbar__logo">S</div>
-      <div>
-        <div class="topbar__title">SureSlot</div>
-        <div class="topbar__subtitle">Predictive Capacity Optimization</div>
-      </div>
-    </div>
-    <div class="topbar__meta">
-      <div class="topbar__status">
-        <span class="topbar__status-dot"></span>
-        Engine Active
-      </div>
-      <div class="topbar__nhs">NHS TRUST</div>
-    </div>
-  </header>
-
-  <!-- ═══ Tabs ═══ -->
-  <nav class="tabs" role="tablist">
-    <button class="tab-btn active" data-tab="panel-dashboard" role="tab" aria-selected="true">
-      <span class="tab-btn__icon">📊</span>Clinical Dashboard
-    </button>
-    <button class="tab-btn" data-tab="panel-savings" role="tab" aria-selected="false">
-      <span class="tab-btn__icon">💰</span>Savings Calculator
-    </button>
-  </nav>
-
-  <!-- ═══ Main Content ═══ -->
-  <main class="main">
-
-    <!-- ── Dashboard Panel ── -->
-    <section id="panel-dashboard" class="tab-panel active" role="tabpanel">
-
-      <!-- Stats Bar -->
-      <div class="stats-bar">
-        <div class="stat-card">
-          <div class="stat-card__label">Total Assessed</div>
-          <div class="stat-card__value stat-card__value--blue" id="stat-total">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Low Risk</div>
-          <div class="stat-card__value stat-card__value--green" id="stat-low">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Med / High Risk</div>
-          <div class="stat-card__value stat-card__value--amber" id="stat-medhigh">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card__label">Very High Risk</div>
-          <div class="stat-card__value stat-card__value--red" id="stat-veryhigh">0</div>
-        </div>
+  <div class="app-container">
+    <!-- ── Sidebar ────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="sidebar__logo">S</div>
+        <span class="sidebar__name">SureSlot</span>
       </div>
 
-      <!-- Dashboard Grid -->
-      <div class="dashboard-grid">
+      <ul class="sidebar__menu">
+        <li class="sidebar__item">
+          <a class="sidebar__link active" data-tab="dashboard">
+            <div class="sidebar__icon-container">📊</div>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="sidebar__item">
+          <a class="sidebar__link" data-tab="analytics">
+            <div class="sidebar__icon-container">💰</div>
+            <span>Savings Calculator</span>
+          </a>
+        </li>
+        <li class="sidebar__item">
+          <a class="sidebar__link">
+            <div class="sidebar__icon-container">📝</div>
+            <span>Patient Intake</span>
+          </a>
+        </li>
+      </ul>
 
-        <!-- Patient Intake -->
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">
-              <span class="card__title-icon">🩺</span>
-              Patient Intake
-            </div>
-            <span class="card__badge" style="background:#E0ECFD;color:#0A2463;">Risk Assessment</span>
+      <div class="footer">
+        <p>© 2026 SureSlot AI</p>
+        <p>NHS Digital Partner</p>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ───────────────────────────────────── -->
+    <main class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar__left">
+          <div class="topbar__breadcrumb">Pages / <span>Dashboard</span></div>
+          <h1 class="topbar__title" id="page-title">Main Dashboard</h1>
+        </div>
+
+        <div class="topbar__actions">
+          <input type="text" class="topbar__search" placeholder="Search patients...">
+          <button class="topbar__btn">🔔</button>
+          <button class="topbar__btn">ℹ️</button>
+          <div class="topbar__profile">DR</div>
+        </div>
+      </header>
+
+      <!-- Dashboard Tab -->
+      <div id="dashboard" class="tab-panel active">
+
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+          <div class="hero-banner__content">
+            <h2>Welcome back, Dr. Ansari</h2>
+            <p>Predictive engine is currently processing UHS Eye OPD live data.</p>
           </div>
-          <div class="card__body">
-            <form id="intake-form">
+
+          <div class="hero-stats">
+            <div class="hero-stat-pill">
+              <div class="hero-stat-pill__icon">📋</div>
+              <div class="hero-stat-pill__info">
+                <span class="hero-stat-pill__value" id="stat-total-hero">0</span>
+                <span class="hero-stat-pill__label">ASSESSED</span>
+              </div>
+            </div>
+            <div class="hero-stat-pill">
+              <div class="hero-stat-pill__icon">⚠️</div>
+              <div class="hero-stat-pill__info">
+                <span class="hero-stat-pill__value" id="stat-high-hero" style="color:var(--accent-red)">0</span>
+                <span class="hero-stat-pill__label">URGENT</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-card__icon">🟢</div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Low Risk</span>
+              <span class="stat-card__value" id="stat-low">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">🟡</div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Med Risk</span>
+              <span class="stat-card__value" id="stat-medium">0</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon">🔴</div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">High Risk</span>
+              <span class="stat-card__value" id="stat-high">0</span>
+            </div>
+          </div>
+          <div class="stat-card" style="border-right: 4px solid #DC2626">
+            <div class="stat-card__icon">🚨</div>
+            <div class="stat-card__info">
+              <span class="stat-card__label">Very High</span>
+              <span class="stat-card__value" id="stat-veryhigh">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Panels -->
+        <div class="dashboard-sections">
+          <!-- Patient Intake Panel -->
+          <section class="panel">
+            <div class="panel__header">
+              <h3 class="panel__title">⚡ Patient Intake Form</h3>
+              <button class="card__badge">Live Assessment</button>
+            </div>
+
+            <form id="dna-form">
               <div class="form-group">
-                <label class="form-label" for="patientName">Patient Name <span class="form-label__hint">(optional)</span></label>
-                <input class="form-input" id="patientName" type="text" placeholder="e.g. John Smith" autocomplete="off">
+                <label class="form-label" for="patientName">Patient Name <span
+                    class="form-label__hint">(optional)</span></label>
+                <input class="form-input" id="patientName" type="text" placeholder="e.g. John Smith">
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label" for="previousDNA">Previous DNAs <span class="form-label__hint">×8</span></label>
-                  <input class="form-input" id="previousDNA" type="number" min="0" max="50" value="0" required>
+                  <label class="form-label" for="previousDNA">Previous DNAs</label>
+                  <input class="form-input" id="previousDNA" type="number" value="0">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="recentDNA">Recent DNAs <span class="form-label__hint">×15</span></label>
-                  <input class="form-input" id="recentDNA" type="number" min="0" max="20" value="0" required>
+                  <label class="form-label" for="recentDNA">Recent DNAs</label>
+                  <input class="form-input" id="recentDNA" type="number" value="0">
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label" for="noConfirmation">Confirmation Attempts Failed <span class="form-label__hint">×12</span></label>
-                <input class="form-input" id="noConfirmation" type="number" min="0" max="10" value="0" required>
+                <label class="form-label" for="noConfirmation">Confirmation Attempts Failed</label>
+                <input class="form-input" id="noConfirmation" type="number" value="0">
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label" for="leadTimeDays">Lead Time <span class="form-label__hint">days ×0.4</span></label>
-                  <input class="form-input" id="leadTimeDays" type="number" min="0" max="365" value="14" required>
+                  <label class="form-label" for="leadTimeDays">Lead Time <span
+                      class="form-label__hint">days</span></label>
+                  <input class="form-input" id="leadTimeDays" type="number" value="14">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="distanceMiles">Distance <span class="form-label__hint">miles ×0.6</span></label>
-                  <input class="form-input" id="distanceMiles" type="number" min="0" max="200" step="0.1" value="5" required>
+                  <label class="form-label" for="distanceMiles">Distance <span
+                      class="form-label__hint">miles</span></label>
+                  <input class="form-input" id="distanceMiles" type="number" step="0.1" value="5">
                 </div>
               </div>
 
-              <button type="submit" class="btn btn--primary" id="assess-btn">
-                ⚡ Assess DNA Risk
+              <div class="form-group">
+                <label class="form-label" for="clinicDNARate">Clinic DNA Rate <span
+                    class="form-label__hint">%</span></label>
+                <input class="form-input" id="clinicDNARate" type="number" value="0">
+              </div>
+
+              <div class="form-row" style="margin-bottom: 2rem;">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="prepRequired">
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-label">Preparation Required</span>
+                </label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="newPatient">
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-label">New Patient</span>
+                </label>
+              </div>
+
+              <button class="btn--primary" type="submit">
+                <span>🚀 Assess DNA Risk</span>
               </button>
             </form>
+          </section>
 
-            <!-- Tier Legend -->
-            <div class="tier-legend">
-              <div class="tier-legend__item">
-                <span class="tier-legend__dot tier-legend__dot--low"></span>
-                <span class="tier-legend__label">Low</span>
-                <span class="tier-legend__range">0 – 10%</span>
-              </div>
-              <div class="tier-legend__item">
-                <span class="tier-legend__dot tier-legend__dot--medium"></span>
-                <span class="tier-legend__label">Medium</span>
-                <span class="tier-legend__range">11 – 25%</span>
-              </div>
-              <div class="tier-legend__item">
-                <span class="tier-legend__dot tier-legend__dot--high"></span>
-                <span class="tier-legend__label">High</span>
-                <span class="tier-legend__range">26 – 50%</span>
-              </div>
-              <div class="tier-legend__item">
-                <span class="tier-legend__dot tier-legend__dot--veryhigh"></span>
-                <span class="tier-legend__label">Very High</span>
-                <span class="tier-legend__range">&gt; 50%</span>
+          <!-- Live Risk Feed Panel -->
+          <section class="panel">
+            <div class="panel__header">
+              <h3 class="panel__title">📡 Live Risk Feed</h3>
+              <div class="topbar__status" style="color:var(--accent-green); font-size: 0.8rem; font-weight: 700;">
+                <span class="sidebar__icon">●</span> LIVE
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Live Risk Feed -->
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">
-              <span class="card__title-icon">📡</span>
-              Live Risk Feed
+            <div id="risk-feed" class="feed">
+              <!-- Feed items injected by app.js -->
             </div>
-            <span class="card__badge" style="background:#E0FBE9;color:#0E8A3E;">● Live</span>
-          </div>
-          <div class="card__body" style="padding:0;">
-            <div class="feed" id="risk-feed">
-              <div class="feed__empty">
-                <div class="feed__empty-icon">📋</div>
-                <div class="feed__empty-text">No patients assessed yet</div>
-                <div class="feed__empty-sub">Submit the intake form to begin risk stratification</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Feature Highlights -->
-      <div class="features-bar">
-        <div class="feature-card">
-          <div class="feature-card__icon">⚡</div>
-          <div class="feature-card__title">Dynamic Response</div>
-          <div class="feature-card__desc">Not just reminders — an operational decision engine that adapts intervention strategy in real time.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">🧑‍⚕️</div>
-          <div class="feature-card__title">Human-in-the-Loop</div>
-          <div class="feature-card__desc">Very High risk triggers human follow-up — proven to reduce mortality and morbidity outcomes.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">📈</div>
-          <div class="feature-card__title">Scalable AI</div>
-          <div class="feature-card__desc">Built on an agentic platform. The model continuously improves as real-world data is accumulated.</div>
+          </section>
         </div>
       </div>
 
-    </section>
-
-    <!-- ── Savings Calculator Panel ── -->
-    <section id="panel-savings" class="tab-panel" role="tabpanel">
-
-      <div class="savings-grid">
-
-        <!-- Controls -->
-        <div class="card">
-          <div class="card__header">
-            <div class="card__title">
-              <span class="card__title-icon">🎛️</span>
-              DNA Reduction Target
-            </div>
+      <!-- Analytics Tab (Savings Calculator) -->
+      <div id="analytics" class="tab-panel">
+        <div class="panel">
+          <div class="panel__header">
+            <h3 class="panel__title">💰 Savings & Impact Calculator</h3>
           </div>
-          <div class="card__body">
-            <div class="slider-container">
-              <div class="slider-value-display" id="reduction-display">30<span>%</span></div>
-              <input type="range" id="dna-reduction" min="5" max="60" value="30" step="1">
-              <div class="slider-labels">
-                <span>5%</span>
-                <span>Conservative</span>
-                <span>Aggressive</span>
-                <span>60%</span>
+
+          <div class="savings-container">
+            <!-- Summary Cards -->
+            <div class="savings-summary">
+              <div class="savings-card">
+                <span class="savings-card__label">Estimated Annual Savings</span>
+                <span class="savings-card__value savings-card__value--green" id="savings-money">£0</span>
+              </div>
+              <div class="savings-card">
+                <span class="savings-card__label">Additional Appointments</span>
+                <span class="savings-card__value" id="savings-appts">0</span>
               </div>
             </div>
 
-            <div class="baseline-info">
-              <div class="baseline-info__title">📊 NHS Baseline Data</div>
-              <div class="baseline-info__row">
-                <span>Annual DNA Rate</span>
-                <span class="baseline-info__value">~7.8%</span>
+            <!-- Target Slider -->
+            <div class="savings-slider-section">
+              <div class="slider-header">
+                <span class="slider-label">DNA Reduction Target</span>
+                <span class="slider-value" id="slider-val">30%</span>
               </div>
-              <div class="baseline-info__row">
-                <span>Total DNAs / Year</span>
-                <span class="baseline-info__value">~8 Million</span>
-              </div>
-              <div class="baseline-info__row">
-                <span>Annual Cost to NHS</span>
-                <span class="baseline-info__value">£1.3 Billion</span>
-              </div>
-              <div class="baseline-info__row">
-                <span>Cost per DNA</span>
-                <span class="baseline-info__value">£162.50</span>
-              </div>
+              <input type="range" id="reduction-slider" min="5" max="60" value="30">
+              <p style="color: var(--text-sec); font-size: 0.9rem; font-weight: 500;">Adjust the target to simulate
+                potential UHS impact.</p>
             </div>
-          </div>
-        </div>
 
-        <!-- Results -->
-        <div>
-          <div class="savings-results">
-            <div class="savings-result-card savings-result-card--money">
-              <div class="savings-result__icon">💷</div>
-              <div class="savings-result__value savings-result__value--green" id="savings-money">£390M</div>
-              <div class="savings-result__label">Projected Savings</div>
-              <div class="savings-result__desc">Annual cost reduction from prevented DNAs across NHS trusts</div>
-            </div>
-            <div class="savings-result-card savings-result-card--appts">
-              <div class="savings-result__icon">📅</div>
-              <div class="savings-result__value savings-result__value--blue" id="savings-appts">2.4M</div>
-              <div class="savings-result__label">Appointments Recovered</div>
-              <div class="savings-result__desc">Additional patients seen per year from reclaimed capacity</div>
-            </div>
-            <div class="savings-result-card savings-result-card--rate">
-              <div class="savings-result__icon">📉</div>
-              <div class="savings-result__value savings-result__value--amber" id="savings-rate">5.5%</div>
-              <div class="savings-result__label">New DNA Rate</div>
-              <div class="savings-result__desc">Projected national DNA rate after SureSlot deployment</div>
-            </div>
-            <div class="savings-result-card savings-result-card--impact">
-              <div class="savings-result__icon">🏥</div>
-              <div class="savings-result__value savings-result__value--purple" id="savings-capacity">+12%</div>
-              <div class="savings-result__label">Capacity Gain</div>
-              <div class="savings-result__desc">Estimated outpatient capacity increase across participating trusts</div>
+            <!-- Market Reach (Baseline Data) -->
+            <div style="background: #F4F7FE; border-radius: 20px; padding: 2rem;">
+              <h4 style="font-weight: 800; font-size: 1rem; margin-bottom: 1.5rem; color: var(--primary)">📊 NHS
+                Baseline Data (2025/26)</h4>
+              <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid #E0E5F2; padding-bottom: 8px;">
+                  <span style="font-weight: 700; color: var(--text-sec); font-size: 0.85rem;">GP DNA Rate</span>
+                  <span style="font-weight: 800; color: var(--text-main);">~6.4%</span>
+                </div>
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid #E0E5F2; padding-bottom: 8px;">
+                  <span style="font-weight: 700; color: var(--text-sec); font-size: 0.85rem;">Total GP DNAs /
+                    Year</span>
+                  <span style="font-weight: 800; color: var(--text-main);">~16 Million</span>
+                </div>
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid #E0E5F2; padding-bottom: 8px;">
+                  <span style="font-weight: 700; color: var(--text-sec); font-size: 0.85rem;">Annual Cost to NHS</span>
+                  <span style="font-weight: 800; color: var(--text-main);">£1.3 Billion</span>
+                </div>
+                <div
+                  style="display: flex; justify-content: space-between; border-bottom: 1px solid #E0E5F2; padding-bottom: 8px;">
+                  <span style="font-weight: 700; color: var(--text-sec); font-size: 0.85rem;">Cost per DNA</span>
+                  <span style="font-weight: 800; color: var(--text-main);">£81.25</span>
+                </div>
+              </div>
+              <div
+                style="margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px dashed var(--accent-red);">
+                <span style="font-weight: 800; color: var(--accent-red);">🏥 UHS Eye OPD Impact</span>
+                <span style="font-weight: 800; color: var(--accent-red); font-size: 1.25rem;">£7.4 Million</span>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
 
-    </section>
-
-  </main>
-
-  <!-- ═══ Footer ═══ -->
-  <footer class="footer">
-    SureSlot © 2026 — Predictive Capacity Optimization for the NHS &nbsp;·&nbsp; Built for the MedTech Innovation Programme
-  </footer>
+    </main>
+  </div>
 
   <script src="app.js"></script>
 </body>
+
 </html>
