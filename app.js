@@ -232,19 +232,28 @@ function renderFeed() {
     return;
   }
 
-  container.innerHTML = visiblePatients.map((p, idx) => `
-    <div class="feed-item" data-patient-idx="${idx}" style="cursor:pointer" title="Click to view ${escapeHtml(p.name)}'s data">
-      <div class="feed-item__circle risk--${p.tier.key}">${p.risk}%</div>
-      <div class="feed-item__info">
-        <div class="feed-item__name">${escapeHtml(p.name)}</div>
-        <div class="feed-item__meta">
-          <span class="feed-item__badge badge--${p.tier.key}">${p.tier.key.toUpperCase()} RISK</span>
-          <span style="font-size:0.7rem; color:var(--text-sec); font-weight:700;">• ${p.tier.intervention}</span>
+  const now = new Date();
+
+  container.innerHTML = visiblePatients.map((p, idx) => {
+    const isNew = p.timestamp && (now - p.timestamp < 60000); // New if added in last 60 seconds
+    const newClass = isNew ? 'feed-item--new' : '';
+    const newTag = isNew ? '<div class="feed-item__new-tag">NEW</div>' : '';
+
+    return `
+      <div class="feed-item ${newClass}" data-patient-idx="${idx}" style="cursor:pointer" title="Click to view ${escapeHtml(p.name)}'s data">
+        ${newTag}
+        <div class="feed-item__circle risk--${p.tier.key}">${p.risk}%</div>
+        <div class="feed-item__info">
+          <div class="feed-item__name">${escapeHtml(p.name)}</div>
+          <div class="feed-item__meta">
+            <span class="feed-item__badge badge--${p.tier.key}">${p.tier.key.toUpperCase()} RISK</span>
+            <span style="font-size:0.7rem; color:var(--text-sec); font-weight:700;">• ${p.tier.intervention}</span>
+          </div>
         </div>
+        <div class="feed-item__action">${p.tier.icon}</div>
       </div>
-      <div class="feed-item__action">${p.tier.icon}</div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   // Attach click handlers to each feed item
   container.querySelectorAll('.feed-item[data-patient-idx]').forEach(el => {
@@ -383,6 +392,7 @@ function initSearch() {
 function loadDemo() {
   const demos = [
     { name: 'James Harrison', inputs: { previousDNA: 5, recentDNA: 2, noConfirmation: 1, leadTimeDays: 28, distanceMiles: 15, clinicDNARate: 12, prepRequired: 0, newPatient: 0 } },
+    { name: 'Marcus Thorne', inputs: { previousDNA: 12, recentDNA: 4, noConfirmation: 1, leadTimeDays: 30, distanceMiles: 20, clinicDNARate: 18, prepRequired: 1, newPatient: 0 } },
     { name: 'Sarah Mitchell', inputs: { previousDNA: 0, recentDNA: 0, noConfirmation: 0, leadTimeDays: 7, distanceMiles: 3, clinicDNARate: 5, prepRequired: 0, newPatient: 0 } },
     { name: 'Ahmed Patel', inputs: { previousDNA: 3, recentDNA: 1, noConfirmation: 1, leadTimeDays: 21, distanceMiles: 25, clinicDNARate: 18, prepRequired: 1, newPatient: 1 } },
     { name: 'Emily Chen', inputs: { previousDNA: 0, recentDNA: 0, noConfirmation: 0, leadTimeDays: 5, distanceMiles: 2, clinicDNARate: 4, prepRequired: 0, newPatient: 1 } },
@@ -429,9 +439,12 @@ function loadDemo() {
     { name: 'Kevin O\'Donoghue', inputs: { previousDNA: 12, recentDNA: 8, noConfirmation: 1, leadTimeDays: 45, distanceMiles: 35, clinicDNARate: 28, prepRequired: 1, newPatient: 1 } },
   ];
 
+  const pastDate = new Date();
+  pastDate.setMinutes(pastDate.getMinutes() - 10); // Set demo data to 10 mins ago
+
   demos.forEach(demo => {
     const risk = calculateDNARisk(demo.inputs);
-    patients.push({ id: Math.random(), name: demo.name, risk, tier: getTier(risk), inputs: demo.inputs });
+    patients.push({ id: Math.random(), name: demo.name, risk, tier: getTier(risk), inputs: demo.inputs, timestamp: pastDate });
   });
 
   renderFeed();
