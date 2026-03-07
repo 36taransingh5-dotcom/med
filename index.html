@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="sidebar__item">
-          <a class="sidebar__link">
+          <a class="sidebar__link" data-scroll="dna-form">
             <div class="sidebar__icon-container">📝</div>
             <span>Patient Intake</span>
           </a>
@@ -59,9 +59,33 @@
 
         <div class="topbar__actions">
           <input type="text" class="topbar__search" placeholder="Search patients...">
-          <button class="topbar__btn">🔔</button>
-          <button class="topbar__btn">ℹ️</button>
-          <div class="topbar__profile">DR</div>
+          <div class="topbar__btn-wrap">
+            <button class="topbar__btn" id="btn-notifications">🔔</button>
+            <div class="dropdown" id="dropdown-notifications" style="display:none">
+              <div class="dropdown__header">Notifications</div>
+              <div class="dropdown__item">📋 3 new assessments processed</div>
+              <div class="dropdown__item">⚠️ 1 patient flagged as very high risk</div>
+              <div class="dropdown__item dropdown__item--muted">No further alerts</div>
+            </div>
+          </div>
+          <div class="topbar__btn-wrap">
+            <button class="topbar__btn" id="btn-info">ℹ️</button>
+            <div class="dropdown" id="dropdown-info" style="display:none">
+              <div class="dropdown__header">About SureSlot</div>
+              <div class="dropdown__item">Version 2.0 — KPSFLEX UI</div>
+              <div class="dropdown__item">Predictive Capacity Optimization</div>
+              <div class="dropdown__item">NHS Digital Partner © 2026</div>
+            </div>
+          </div>
+          <div class="topbar__btn-wrap">
+            <div class="topbar__profile" id="btn-profile">DR</div>
+            <div class="dropdown dropdown--right" id="dropdown-profile" style="display:none">
+              <div class="dropdown__header">Clinician Profile</div>
+              <div class="dropdown__item">👤 Dr. Clinician</div>
+              <div class="dropdown__item">📧 clinician@nhs.net</div>
+              <div class="dropdown__item dropdown__item--muted">Sign out</div>
+            </div>
+          </div>
         </div>
       </header>
 

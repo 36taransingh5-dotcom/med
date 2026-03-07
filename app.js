@@ -59,7 +59,7 @@ function getTier(riskPercent) {
   return TIERS[TIERS.length - 1];
 }
 
-// ── Sidebar Navigation ─────────────────────────────────────
+// ── Sidebar Navigation ─────────────────────────────────────────
 function initNavigation() {
   const links = document.querySelectorAll('.sidebar__link');
   const panels = document.querySelectorAll('.tab-panel');
@@ -68,6 +68,29 @@ function initNavigation() {
   links.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
+
+      // Handle scroll-to links (Patient Intake)
+      const scrollTarget = link.dataset.scroll;
+      if (scrollTarget) {
+        // Make sure we're on the dashboard tab first
+        links.forEach(l => l.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        document.querySelector('[data-tab="dashboard"]').classList.add('active');
+        document.getElementById('dashboard').classList.add('active');
+        pageTitle.textContent = 'Main Dashboard';
+
+        // Smooth scroll to the form
+        setTimeout(() => {
+          const target = document.getElementById(scrollTarget);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+
+        // Highlight the Patient Intake link
+        link.classList.add('active');
+        return;
+      }
+
+      // Handle tab links
       const targetTab = link.dataset.tab;
       if (!targetTab) return;
 
@@ -77,10 +100,38 @@ function initNavigation() {
       link.classList.add('active');
       document.getElementById(targetTab).classList.add('active');
 
-      // Update page title based on tab
       if (targetTab === 'dashboard') pageTitle.textContent = 'Main Dashboard';
       if (targetTab === 'analytics') pageTitle.textContent = 'Savings Analytics';
     });
+  });
+}
+
+// ── Dropdown Toggles ──────────────────────────────────────────
+function initDropdowns() {
+  const pairs = [
+    ['btn-notifications', 'dropdown-notifications'],
+    ['btn-info', 'dropdown-info'],
+    ['btn-profile', 'dropdown-profile']
+  ];
+
+  pairs.forEach(([btnId, dropId]) => {
+    const btn = document.getElementById(btnId);
+    const drop = document.getElementById(dropId);
+    if (!btn || !drop) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = drop.style.display === 'block';
+      // Close all dropdowns first
+      document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+      // Toggle the clicked one
+      drop.style.display = isOpen ? 'none' : 'block';
+    });
+  });
+
+  // Click outside closes all dropdowns
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
   });
 }
 
@@ -149,7 +200,7 @@ function renderFeed() {
           <span style="font-size:0.7rem; color:var(--text-sec); font-weight:700;">• ${p.tier.intervention}</span>
         </div>
       </div>
-      <div class="feed-item__action">➡️</div>
+      <div class="feed-item__action">${p.tier.icon}</div>
     </div>
   `).join('');
 }
@@ -230,6 +281,7 @@ function loadDemo() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
+  initDropdowns();
   initForm();
   initSavingsCalculator();
   loadDemo();
