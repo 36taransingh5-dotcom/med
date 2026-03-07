@@ -180,6 +180,43 @@ function initForm() {
   });
 }
 
+// ── Populate Form with Patient Data ───────────────────────
+function populateForm(patient) {
+  const inp = patient.inputs;
+  document.getElementById('patientName').value = patient.name;
+  document.getElementById('previousDNA').value = inp.previousDNA;
+  document.getElementById('recentDNA').value = inp.recentDNA;
+  document.getElementById('noConfirmation').value = inp.noConfirmation;
+  document.getElementById('leadTimeDays').value = inp.leadTimeDays;
+  document.getElementById('distanceMiles').value = inp.distanceMiles;
+  document.getElementById('clinicDNARate').value = inp.clinicDNARate;
+  document.getElementById('prepRequired').checked = inp.prepRequired === 1;
+  document.getElementById('newPatient').checked = inp.newPatient === 1;
+
+  // Switch to dashboard, scroll to form
+  const panels = document.querySelectorAll('.tab-panel');
+  const links = document.querySelectorAll('.sidebar__link');
+  links.forEach(l => l.classList.remove('active'));
+  panels.forEach(p => p.classList.remove('active'));
+  document.querySelector('[data-tab="dashboard"]').classList.add('active');
+  document.getElementById('dashboard').classList.add('active');
+  document.getElementById('page-title').textContent = 'Main Dashboard';
+
+  // Highlight Patient Intake link
+  const intakeLink = document.querySelector('[data-scroll="dna-form"]');
+  if (intakeLink) intakeLink.classList.add('active');
+
+  setTimeout(() => {
+    document.getElementById('dna-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Flash the form to indicate data was loaded
+    const form = document.getElementById('dna-form');
+    form.style.outline = '3px solid var(--primary)';
+    form.style.outlineOffset = '8px';
+    form.style.transition = 'outline 0.4s ease';
+    setTimeout(() => { form.style.outline = 'none'; }, 1500);
+  }, 150);
+}
+
 // ── Render Feed ────────────────────────────────────────────
 function renderFeed() {
   const container = document.getElementById('risk-feed');
@@ -190,8 +227,8 @@ function renderFeed() {
     return;
   }
 
-  container.innerHTML = patients.map(p => `
-    <div class="feed-item">
+  container.innerHTML = patients.map((p, idx) => `
+    <div class="feed-item" data-patient-idx="${idx}" style="cursor:pointer" title="Click to view ${escapeHtml(p.name)}'s data">
       <div class="feed-item__circle risk--${p.tier.key}">${p.risk}%</div>
       <div class="feed-item__info">
         <div class="feed-item__name">${escapeHtml(p.name)}</div>
@@ -203,6 +240,14 @@ function renderFeed() {
       <div class="feed-item__action">${p.tier.icon}</div>
     </div>
   `).join('');
+
+  // Attach click handlers to each feed item
+  container.querySelectorAll('.feed-item[data-patient-idx]').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = parseInt(el.dataset.patientIdx);
+      if (patients[idx]) populateForm(patients[idx]);
+    });
+  });
 }
 
 // ── Update Dashboard Stats ─────────────────────────────────
@@ -262,6 +307,77 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+// ── Search ─────────────────────────────────────────────────
+function initSearch() {
+  const searchInput = document.querySelector('.topbar__search');
+  if (!searchInput) return;
+
+  // Create search results dropdown
+  const wrap = document.createElement('div');
+  wrap.style.position = 'relative';
+  searchInput.parentNode.insertBefore(wrap, searchInput);
+  wrap.appendChild(searchInput);
+
+  const results = document.createElement('div');
+  results.className = 'search-results';
+  results.style.cssText = 'display:none; position:absolute; top:calc(100% + 8px); left:0; right:0; background:var(--bg-card); border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.12); border:1px solid #E0E5F2; z-index:600; max-height:280px; overflow-y:auto; padding:6px 0;';
+  wrap.appendChild(results);
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) { results.style.display = 'none'; return; }
+
+    const matches = patients.filter(p => p.name.toLowerCase().includes(query));
+    if (matches.length === 0) {
+      results.innerHTML = '<div style="padding:14px 20px; color:var(--text-sec); font-weight:600; font-size:0.9rem;">No patients found</div>';
+    } else {
+      results.innerHTML = matches.map((p, i) => `
+        <div class="search-result-item" data-match-idx="${i}" style="padding:12px 20px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:background 0.15s;">
+          <div style="width:36px; height:36px; border-radius:50%; background:${p.tier.color}20; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; color:${p.tier.color};">${p.risk}%</div>
+          <div>
+            <div style="font-weight:700; font-size:0.9rem; color:var(--text-main);">${escapeHtml(p.name)}</div>
+            <div style="font-size:0.75rem; color:var(--text-sec); font-weight:600;">${p.tier.label} • ${p.tier.intervention}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+    results.style.display = 'block';
+
+    // Attach click handlers
+    results.querySelectorAll('.search-result-item').forEach((el, i) => {
+      el.addEventListener('click', () => {
+        const matchIdx = parseInt(el.dataset.matchIdx);
+        if (matches[matchIdx]) {
+          populateForm(matches[matchIdx]);
+          searchInput.value = '';
+          results.style.display = 'none';
+        }
+      });
+      el.addEventListener('mouseenter', () => el.style.background = '#F4F7FE');
+      el.addEventListener('mouseleave', () => el.style.background = 'transparent');
+    });
+  });
+
+  // Enter key selects first match
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const query = searchInput.value.trim().toLowerCase();
+      const match = patients.find(p => p.name.toLowerCase().includes(query));
+      if (match) {
+        populateForm(match);
+        searchInput.value = '';
+        results.style.display = 'none';
+      }
+    }
+  });
+
+  // Close results on outside click
+  document.addEventListener('click', (e) => {
+    if (!wrap.contains(e.target)) results.style.display = 'none';
+  });
+}
+
 // ── Demo Data ──────────────────────────────────────────────
 function loadDemo() {
   const demos = [
@@ -282,6 +398,7 @@ function loadDemo() {
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initDropdowns();
+  initSearch();
   initForm();
   initSavingsCalculator();
   loadDemo();
