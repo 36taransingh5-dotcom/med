@@ -7,7 +7,7 @@
   <title>SureSlot | Predictive Capacity Optimization Engine</title>
   <!-- DM Sans for that modern look -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 
 <body>
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="sidebar__item">
-          <a class="sidebar__link" data-scroll="dna-form">
+          <a class="sidebar__link" href="intake.html">
             <div class="sidebar__icon-container">📝</div>
             <span>Patient Intake</span>
           </a>
@@ -60,30 +60,99 @@
         <div class="topbar__actions">
           <input type="text" class="topbar__search" placeholder="Search patients...">
           <div class="topbar__btn-wrap">
-            <button class="topbar__btn" id="btn-notifications">🔔</button>
+            <button class="topbar__btn" id="btn-notifications">🔔<span class="topbar__badge">2</span></button>
             <div class="dropdown" id="dropdown-notifications" style="display:none">
-              <div class="dropdown__header">Notifications</div>
-              <div class="dropdown__item">📋 3 new assessments processed</div>
-              <div class="dropdown__item">⚠️ 1 patient flagged as very high risk</div>
-              <div class="dropdown__item dropdown__item--muted">No further alerts</div>
+              <div class="dropdown__header">
+                <span>Notifications</span>
+                <span class="dropdown__count">2 new</span>
+              </div>
+              <div class="dropdown__item dropdown__item--unread">
+                <div class="dropdown__dot dropdown__dot--warning"></div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">High-risk patient flagged</div>
+                  <div class="dropdown__item-desc">1 patient exceeds 50% DNA risk threshold</div>
+                  <div class="dropdown__item-time">2 minutes ago</div>
+                </div>
+              </div>
+              <div class="dropdown__item dropdown__item--unread">
+                <div class="dropdown__dot dropdown__dot--success"></div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Assessments processed</div>
+                  <div class="dropdown__item-desc">3 new patient risk scores calculated</div>
+                  <div class="dropdown__item-time">15 minutes ago</div>
+                </div>
+              </div>
+              <div class="dropdown__item">
+                <div class="dropdown__dot"></div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">System calibrated</div>
+                  <div class="dropdown__item-desc">Risk engine weights updated successfully</div>
+                  <div class="dropdown__item-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="dropdown__footer">View all notifications</div>
             </div>
           </div>
           <div class="topbar__btn-wrap">
             <button class="topbar__btn" id="btn-info">ℹ️</button>
             <div class="dropdown" id="dropdown-info" style="display:none">
-              <div class="dropdown__header">About SureSlot</div>
-              <div class="dropdown__item">Version 2.0 — KPSFLEX UI</div>
-              <div class="dropdown__item">Predictive Capacity Optimization</div>
-              <div class="dropdown__item">NHS Digital Partner © 2026</div>
+              <div class="dropdown__header">
+                <span>About SureSlot</span>
+                <span class="dropdown__version">v2.0</span>
+              </div>
+              <div class="dropdown__item">
+                <div class="dropdown__icon">🧠</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Predictive Engine</div>
+                  <div class="dropdown__item-desc">ML-powered DNA risk stratification</div>
+                </div>
+              </div>
+              <div class="dropdown__item">
+                <div class="dropdown__icon">📊</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Capacity Optimization</div>
+                  <div class="dropdown__item-desc">Real-time slot utilisation analytics</div>
+                </div>
+              </div>
+              <div class="dropdown__item">
+                <div class="dropdown__icon">🏥</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">NHS Digital Partner</div>
+                  <div class="dropdown__item-desc">Certified integration © 2026</div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="topbar__btn-wrap">
             <div class="topbar__profile" id="btn-profile">DR</div>
             <div class="dropdown dropdown--right" id="dropdown-profile" style="display:none">
-              <div class="dropdown__header">Clinician Profile</div>
-              <div class="dropdown__item">👤 Dr. Clinician</div>
-              <div class="dropdown__item">📧 clinician@nhs.net</div>
-              <div class="dropdown__item dropdown__item--muted">Sign out</div>
+              <div class="dropdown__user-card">
+                <div class="dropdown__avatar">DR</div>
+                <div>
+                  <div class="dropdown__user-name">Dr. Clinician</div>
+                  <div class="dropdown__user-role">Senior Consultant</div>
+                </div>
+              </div>
+              <div class="dropdown__divider"></div>
+              <div class="dropdown__item">
+                <div class="dropdown__icon">📧</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">clinician@nhs.net</div>
+                </div>
+              </div>
+              <div class="dropdown__item">
+                <div class="dropdown__icon">⚙️</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Settings</div>
+                </div>
+              </div>
+              <div class="dropdown__divider"></div>
+              <div class="dropdown__item dropdown__item--danger">
+                <div class="dropdown__icon">🚪</div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Sign out</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -306,7 +375,7 @@
     </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 
 </html>

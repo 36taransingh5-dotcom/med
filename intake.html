@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Intake | SureSlot</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        /* ── Intake Page Specific Styles ─────────────────────── */
+        .intake-page {
+            min-height: 100vh;
+            background: var(--bg-main);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .intake-header {
+            background: var(--bg-card);
+            border-bottom: 1px solid #E0E5F2;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .intake-header__left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .intake-header__back {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid #E0E5F2;
+            background: var(--bg-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .intake-header__back:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .intake-header__title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .intake-header__subtitle {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-sec);
+            margin-top: 2px;
+        }
+
+        .intake-header__count {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .intake-content {
+            padding: 30px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Search & Filter Bar */
+        .intake-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .intake-search {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            border: 1px solid #E0E5F2;
+            background: var(--bg-card);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+            outline: none;
+            transition: border 0.2s ease;
+        }
+
+        .intake-search:focus {
+            border-color: var(--primary);
+        }
+
+        .intake-filter-btn {
+            padding: 10px 18px;
+            border-radius: 12px;
+            border: 1px solid #E0E5F2;
+            background: var(--bg-card);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-sec);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .intake-filter-btn:hover,
+        .intake-filter-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Patient Cards Grid */
+        .patient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .patient-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #E0E5F2;
+            transition: all 0.25s ease;
+        }
+
+        .patient-card:hover {
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .patient-card__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px 16px;
+            border-bottom: 1px solid #F0F3FA;
+        }
+
+        .patient-card__identity {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .patient-card__avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .patient-card__name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .patient-card__id {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-sec);
+            margin-top: 2px;
+        }
+
+        .patient-card__risk-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .patient-card__risk-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .patient-card__risk-label {
+            font-size: 0.6rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .patient-card__details {
+            padding: 16px 24px 20px;
+        }
+
+        .patient-card__detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .detail-item__icon {
+            font-size: 0.9rem;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .detail-item__info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .detail-item__label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-sec);
+        }
+
+        .detail-item__value {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .patient-card__intervention {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .patient-card__intervention-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Empty state */
+        .intake-empty {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .intake-empty__icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .intake-empty__title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .intake-empty__desc {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-sec);
+        }
+
+        @media (max-width: 900px) {
+            .patient-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intake-header {
+                padding: 16px 20px;
+            }
+
+            .intake-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="intake-page">
+
+    <!-- Header -->
+    <header class="intake-header">
+        <div class="intake-header__left">
+            <a href="index.html" class="intake-header__back" title="Back to Dashboard">←</a>
+            <div>
+                <div class="intake-header__title">📋 Patient Intake Records</div>
+                <div class="intake-header__subtitle">All assessed patients & risk profiles</div>
+            </div>
+        </div>
+        <div class="intake-header__count" id="patient-count">0 Patients</div>
+    </header>
+
+    <!-- Toolbar -->
+    <div class="intake-content">
+        <div class="intake-toolbar">
+            <input type="text" class="intake-search" id="intake-search" placeholder="Search patients by name...">
+            <button class="intake-filter-btn active" data-filter="all">All</button>
+            <button class="intake-filter-btn" data-filter="low">🟢 Low</button>
+            <button class="intake-filter-btn" data-filter="medium">🟡 Medium</button>
+            <button class="intake-filter-btn" data-filter="high">🔴 High</button>
+            <button class="intake-filter-btn" data-filter="veryhigh">🚨 Very High</button>
+        </div>
+
+        <!-- Patient Cards (populated by JS) -->
+        <div class="patient-grid" id="patient-grid"></div>
+    </div>
+
+    <script>
+        /* ── Shared constants (mirrored from app.js) ──────────── */
+        const WEIGHTS = {
+            previousDNA: 8, recentDNA: 15, noConfirmation: 12,
+            leadTimeDays: 0.4, distanceMiles: 0.6, clinicDNARate: 0.5,
+            prepRequired: 5, newPatient: 5
+        };
+        const MAX_SCORE = 525.5;
+        const TIERS = [
+            { key: 'low', label: 'Low Risk', max: 10, color: '#01B574', bg: 'rgba(1,181,116,0.08)', intervention: 'Standard SMS / Letter', icon: '💬' },
+            { key: 'medium', label: 'Medium Risk', max: 25, color: '#FFB547', bg: 'rgba(255,181,71,0.08)', intervention: 'Early Reminders: SMS & Email', icon: '📧' },
+            { key: 'high', label: 'High Risk', max: 50, color: '#EE5D50', bg: 'rgba(238,93,80,0.08)', intervention: 'Multi-channel + Confirmation', icon: '📞' },
+            { key: 'veryhigh', label: 'Very High Risk', max: 100, color: '#DC2626', bg: 'rgba(220,38,38,0.08)', intervention: 'Direct Phone Follow-up', icon: '🚨' }
+        ];
+
+        function calculateDNARisk(inputs) {
+            const { previousDNA, recentDNA, noConfirmation, leadTimeDays, distanceMiles, clinicDNARate, prepRequired, newPatient } = inputs;
+            const rawScore =
+                (previousDNA * WEIGHTS.previousDNA) + (recentDNA * WEIGHTS.recentDNA) +
+                (noConfirmation * WEIGHTS.noConfirmation) + (leadTimeDays * WEIGHTS.leadTimeDays) +
+                (distanceMiles * WEIGHTS.distanceMiles) + (clinicDNARate * WEIGHTS.clinicDNARate) +
+                (prepRequired * WEIGHTS.prepRequired) + (newPatient * WEIGHTS.newPatient);
+            return Math.round(Math.min((rawScore / MAX_SCORE) * 100, 100) * 10) / 10;
+        }
+
+        function getTier(riskPercent) {
+            for (const tier of TIERS) { if (riskPercent <= tier.max) return tier; }
+            return TIERS[TIERS.length - 1];
+        }
+
+        function escapeHtml(str) {
+            const d = document.createElement('div'); d.textContent = str; return d.innerHTML;
+        }
+
+        /* ── Demo Data (same as app.js) ──────────────────────── */
+        const demos = [
+            { name: 'James Harrison', inputs: { previousDNA: 5, recentDNA: 2, noConfirmation: 1, leadTimeDays: 28, distanceMiles: 15, clinicDNARate: 12, prepRequired: 0, newPatient: 0 } },
+            { name: 'Sarah Mitchell', inputs: { previousDNA: 0, recentDNA: 0, noConfirmation: 0, leadTimeDays: 7, distanceMiles: 3, clinicDNARate: 5, prepRequired: 0, newPatient: 0 } },
+            { name: 'Ahmed Patel', inputs: { previousDNA: 3, recentDNA: 1, noConfirmation: 1, leadTimeDays: 21, distanceMiles: 25, clinicDNARate: 18, prepRequired: 1, newPatient: 1 } },
+        ];
+
+        const patients = demos.map((d, i) => {
+            const risk = calculateDNARisk(d.inputs);
+            const tier = getTier(risk);
+            return { id: i + 1, name: d.name, risk, tier, inputs: d.inputs };
+        });
+
+        /* ── Rendering ───────────────────────────────────────── */
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function getInitials(name) {
+            return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        }
+
+        function renderPatients() {
+            const grid = document.getElementById('patient-grid');
+            let filtered = patients;
+
+            if (currentFilter !== 'all') {
+                filtered = filtered.filter(p => p.tier.key === currentFilter);
+            }
+            if (currentSearch) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearch));
+            }
+
+            document.getElementById('patient-count').textContent = `${filtered.length} Patient${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+          <div class="intake-empty" style="grid-column:1/-1">
+            <div class="intake-empty__icon">🔍</div>
+            <div class="intake-empty__title">No patients found</div>
+            <div class="intake-empty__desc">Try adjusting your search or filter criteria</div>
+          </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const inp = p.inputs;
+                return `
+        <div class="patient-card">
+          <div class="patient-card__top">
+            <div class="patient-card__identity">
+              <div class="patient-card__avatar" style="background:${p.tier.color}">${getInitials(p.name)}</div>
+              <div>
+                <div class="patient-card__name">${escapeHtml(p.name)}</div>
+                <div class="patient-card__id">ID: SLT-${String(p.id).padStart(4, '0')}</div>
+              </div>
+            </div>
+            <div class="patient-card__risk-badge">
+              <div class="patient-card__risk-circle" style="background:${p.tier.color}">${p.risk}%</div>
+              <div class="patient-card__risk-label" style="color:${p.tier.color}">${p.tier.label}</div>
+            </div>
+          </div>
+          <div class="patient-card__details">
+            <div class="patient-card__detail-grid">
+              <div class="detail-item">
+                <div class="detail-item__icon">📋</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Previous DNAs</div>
+                  <div class="detail-item__value">${inp.previousDNA}</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">🔄</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Recent DNAs</div>
+                  <div class="detail-item__value">${inp.recentDNA}</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">📵</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">No Confirmation</div>
+                  <div class="detail-item__value">${inp.noConfirmation}</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">📅</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Lead Time</div>
+                  <div class="detail-item__value">${inp.leadTimeDays} days</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">📍</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Distance</div>
+                  <div class="detail-item__value">${inp.distanceMiles} mi</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">📊</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Clinic DNA Rate</div>
+                  <div class="detail-item__value">${inp.clinicDNARate}%</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">${inp.prepRequired ? '✅' : '❌'}</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">Prep Required</div>
+                  <div class="detail-item__value">${inp.prepRequired ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-item__icon">${inp.newPatient ? '🆕' : '🔁'}</div>
+                <div class="detail-item__info">
+                  <div class="detail-item__label">New Patient</div>
+                  <div class="detail-item__value">${inp.newPatient ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+            </div>
+            <div class="patient-card__intervention" style="background:${p.tier.bg || 'rgba(0,0,0,0.03)'};color:${p.tier.color}">
+              <span class="patient-card__intervention-icon">${p.tier.icon}</span>
+              ${p.tier.intervention}
+            </div>
+          </div>
+        </div>`;
+            }).join('');
+        }
+
+        /* ── Event Listeners ─────────────────────────────────── */
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPatients();
+
+            // Search
+            document.getElementById('intake-search').addEventListener('input', (e) => {
+                currentSearch = e.target.value.trim().toLowerCase();
+                renderPatients();
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.intake-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.intake-filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderPatients();
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
