@@ -67,6 +67,8 @@ function initNavigation() {
 
   links.forEach(link => {
     link.addEventListener('click', (e) => {
+      // Allow normal navigation for links with href (e.g. Patient Intake)
+      if (link.getAttribute('href')) return;
       e.preventDefault();
 
       // Handle scroll-to links (Patient Intake)
@@ -343,14 +345,12 @@ function initSearch() {
     }
     results.style.display = 'block';
 
-    // Attach click handlers
+    // Attach click handlers — navigate to intake page
     results.querySelectorAll('.search-result-item').forEach((el, i) => {
       el.addEventListener('click', () => {
         const matchIdx = parseInt(el.dataset.matchIdx);
         if (matches[matchIdx]) {
-          populateForm(matches[matchIdx]);
-          searchInput.value = '';
-          results.style.display = 'none';
+          window.location.href = `intake.html?search=${encodeURIComponent(matches[matchIdx].name)}`;
         }
       });
       el.addEventListener('mouseenter', () => el.style.background = '#F4F7FE');
@@ -358,16 +358,14 @@ function initSearch() {
     });
   });
 
-  // Enter key selects first match
+  // Enter key selects first match — navigate to intake page
   searchInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const query = searchInput.value.trim().toLowerCase();
       const match = patients.find(p => p.name.toLowerCase().includes(query));
       if (match) {
-        populateForm(match);
-        searchInput.value = '';
-        results.style.display = 'none';
+        window.location.href = `intake.html?search=${encodeURIComponent(match.name)}`;
       }
     }
   });

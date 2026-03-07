@@ -509,6 +509,15 @@
 
         /* ── Event Listeners ─────────────────────────────────── */
         document.addEventListener('DOMContentLoaded', () => {
+            // Read ?search= param from URL (when coming from dashboard search)
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search');
+            if (searchParam) {
+                const searchInput = document.getElementById('intake-search');
+                searchInput.value = searchParam;
+                currentSearch = searchParam.toLowerCase();
+            }
+
             renderPatients();
 
             // Search
