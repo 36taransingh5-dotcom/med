@@ -28,7 +28,7 @@ const NHS_BASELINE = {
   totalDNAs: 16_000_000,
   totalCost: 1_300_000_000,
   costPerDNA: 81.25,
-  uhsEyeOPD: 7_400_000
+  serviceImpact: 7_400_000     // Local clinical impact
 };
 
 // ── State ──────────────────────────────────────────────────
