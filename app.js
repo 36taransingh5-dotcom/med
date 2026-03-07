@@ -224,12 +224,15 @@ function renderFeed() {
   const container = document.getElementById('risk-feed');
   if (!container) return;
 
-  if (patients.length === 0) {
+  // Only keep the 4 most recent/top patients on live feed as requested
+  const visiblePatients = patients.slice(0, 4);
+
+  if (visiblePatients.length === 0) {
     container.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-sec); font-weight: 600;">No assessments processed today.</div>`;
     return;
   }
 
-  container.innerHTML = patients.map((p, idx) => `
+  container.innerHTML = visiblePatients.map((p, idx) => `
     <div class="feed-item" data-patient-idx="${idx}" style="cursor:pointer" title="Click to view ${escapeHtml(p.name)}'s data">
       <div class="feed-item__circle risk--${p.tier.key}">${p.risk}%</div>
       <div class="feed-item__info">
@@ -422,6 +425,8 @@ function loadDemo() {
     { name: 'James Adams', inputs: { previousDNA: 5, recentDNA: 2, noConfirmation: 0, leadTimeDays: 22, distanceMiles: 14, clinicDNARate: 12, prepRequired: 0, newPatient: 0 } },
     { name: 'Abigail Baker', inputs: { previousDNA: 2, recentDNA: 1, noConfirmation: 1, leadTimeDays: 13, distanceMiles: 7, clinicDNARate: 8, prepRequired: 1, newPatient: 0 } },
     { name: 'Benjamin Nelson', inputs: { previousDNA: 7, recentDNA: 3, noConfirmation: 1, leadTimeDays: 35, distanceMiles: 22, clinicDNARate: 17, prepRequired: 0, newPatient: 1 } },
+    { name: 'Elena Rodriguez', inputs: { previousDNA: 15, recentDNA: 6, noConfirmation: 1, leadTimeDays: 50, distanceMiles: 40, clinicDNARate: 30, prepRequired: 1, newPatient: 0 } },
+    { name: 'Kevin O\'Donoghue', inputs: { previousDNA: 12, recentDNA: 8, noConfirmation: 1, leadTimeDays: 45, distanceMiles: 35, clinicDNARate: 28, prepRequired: 1, newPatient: 1 } },
   ];
 
   demos.forEach(demo => {
