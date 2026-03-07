@@ -59,34 +59,43 @@
         <div class="topbar__actions">
           <input type="text" class="topbar__search" placeholder="Search patients...">
           <div class="topbar__btn-wrap">
-            <button class="topbar__btn" id="btn-notifications">🔔<span class="topbar__badge">2</span></button>
+            <button class="topbar__btn" id="btn-notifications">🔔<span class="topbar__badge">3</span></button>
             <div class="dropdown" id="dropdown-notifications" style="display:none">
               <div class="dropdown__header">
-                <span>Notifications</span>
-                <span class="dropdown__count">2 new</span>
+                <span>Clinical Alerts</span>
+                <span class="dropdown__count">3 New Alerts</span>
               </div>
               <div class="dropdown__item dropdown__item--unread">
                 <div class="dropdown__dot dropdown__dot--warning"></div>
                 <div class="dropdown__item-body">
-                  <div class="dropdown__item-title">High-risk patient flagged</div>
-                  <div class="dropdown__item-desc">1 patient exceeds 50% DNA risk threshold</div>
-                  <div class="dropdown__item-time">2 minutes ago</div>
+                  <div class="dropdown__item-title">Critical DNA Risk: SLT-0002</div>
+                  <div class="dropdown__item-desc">Marcus Thorne (High Risk) lacks 48h confirmation. Escalation
+                    required.</div>
+                  <div class="dropdown__item-time">4 mins ago</div>
                 </div>
               </div>
               <div class="dropdown__item dropdown__item--unread">
                 <div class="dropdown__dot dropdown__dot--success"></div>
                 <div class="dropdown__item-body">
-                  <div class="dropdown__item-title">Assessments processed</div>
-                  <div class="dropdown__item-desc">3 new patient risk scores calculated</div>
-                  <div class="dropdown__item-time">15 minutes ago</div>
+                  <div class="dropdown__item-title">Slot Recovery: Urology A-4</div>
+                  <div class="dropdown__item-desc">DNA alert 72h prior allowed backfill for 09:30 AM slot today.</div>
+                  <div class="dropdown__item-time">12 mins ago</div>
+                </div>
+              </div>
+              <div class="dropdown__item dropdown__item--unread">
+                <div class="dropdown__dot" style="background:#54D2D2;"></div>
+                <div class="dropdown__item-body">
+                  <div class="dropdown__item-title">Auto-Intervention Report</div>
+                  <div class="dropdown__item-desc">84% response rate for SMS confirmations in Rheumatology block.</div>
+                  <div class="dropdown__item-time">32 mins ago</div>
                 </div>
               </div>
               <div class="dropdown__item">
-                <div class="dropdown__dot"></div>
+                <div class="dropdown__dot dropdown__dot--danger"></div>
                 <div class="dropdown__item-body">
-                  <div class="dropdown__item-title">System calibrated</div>
-                  <div class="dropdown__item-desc">Risk engine weights updated successfully</div>
-                  <div class="dropdown__item-time">1 hour ago</div>
+                  <div class="dropdown__item-title">Clinic Threshold Breach</div>
+                  <div class="dropdown__item-desc">DNA average exceeds 15% baseline for Wednesday PM clinics.</div>
+                  <div class="dropdown__item-time">2 hours ago</div>
                 </div>
               </div>
               <div class="dropdown__footer">View all notifications</div>
